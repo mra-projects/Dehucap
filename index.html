@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEHUCAP — Soluciones Formativas</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cyan:#00C4CC; --magenta:#E91E8C; --green:#6ABF3D; --yellow:#F5C400;
+  --dark:#0D1B2A; --dark2:#132033; --light:#F4F9FB; --white:#ffffff;
+  --text:#1A2B3C; --muted:#5A7080; --radius:12px; --shadow:0 4px 24px rgba(0,0,0,0.08);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);line-height:1.65}
+h1,h2,h3,h4{font-family:'Sora',sans-serif}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(13,27,42,0.96);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;border-bottom:1px solid rgba(0,196,204,0.15)}
+.nav-logo{text-decoration:none}
+.nav-logo span{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:700;color:#fff;letter-spacing:0.04em}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;transition:color .2s}
+.nav-links a:hover{color:var(--cyan)}
+.nav-cta{background:var(--cyan);color:var(--dark);font-weight:600;font-size:0.85rem;padding:10px 22px;border-radius:50px;text-decoration:none;white-space:nowrap;transition:opacity .2s}
+.nav-cta:hover{opacity:0.88}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{width:24px;height:2px;background:white;border-radius:2px}
+
+/* HERO */
+#hero{min-height:100vh;background:linear-gradient(135deg,var(--dark) 0%,var(--dark2) 60%,#0a2540 100%);display:flex;flex-direction:column;justify-content:center;padding:120px 5% 80px;position:relative;overflow:hidden}
+.hero-bg-shapes{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-bg-shapes .shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18}
+.shape-1{width:500px;height:500px;background:var(--cyan);top:-100px;right:-80px}
+.shape-2{width:300px;height:300px;background:var(--magenta);bottom:60px;right:20%}
+.shape-3{width:200px;height:200px;background:var(--green);top:40%;left:-50px}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1200px;margin:0 auto;width:100%}
+.hero-text{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,196,204,0.12);border:1px solid rgba(0,196,204,0.3);color:var(--cyan);font-size:0.78rem;font-weight:600;letter-spacing:0.1em;padding:6px 14px;border-radius:50px;margin-bottom:1.5rem;text-transform:uppercase}
+.hero-badge::before{content:'';width:7px;height:7px;background:var(--cyan);border-radius:50%}
+.hero-title{font-size:clamp(3rem,6vw,5.5rem);font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:1.2rem}
+.hero-title span{color:var(--cyan)}
+.hero-subtitle{font-size:clamp(1rem,1.8vw,1.2rem);color:rgba(255,255,255,0.72);max-width:500px;margin-bottom:2.5rem;line-height:1.7;font-weight:300}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--cyan);color:var(--dark);font-weight:700;font-size:0.95rem;padding:14px 32px;border-radius:50px;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 0 30px rgba(0,196,204,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,196,204,0.45)}
+.btn-outline{border:1.5px solid rgba(255,255,255,0.3);color:#fff;font-weight:500;font-size:0.95rem;padding:14px 32px;border-radius:50px;text-decoration:none;transition:border-color .2s,background .2s}
+.btn-outline:hover{border-color:var(--cyan);background:rgba(0,196,204,0.08)}
+.hero-visual{position:relative;z-index:1}
+.hero-img-card{border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.hero-float-badge{position:absolute;bottom:-20px;left:-20px;background:#fff;border-radius:14px;padding:14px 18px;box-shadow:0 8px 30px rgba(0,0,0,0.2);display:flex;align-items:center;gap:12px;min-width:200px}
+.hero-float-icon{width:40px;height:40px;border-radius:10px;background:var(--cyan);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hero-float-text p{font-size:0.7rem;color:var(--muted)}
+.hero-float-text strong{font-size:1rem;font-family:'Sora',sans-serif;color:var(--text)}
+
+/* PLACEHOLDER genérico */
+.img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.img-placeholder span{font-size:0.78rem;letter-spacing:0.06em}
+.img-placeholder small{font-size:0.68rem}
+
+/* STATS */
+#stats{background:var(--dark);padding:0 5%;overflow:hidden}
+.stats-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08)}
+.stat-item{padding:3rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,0.08)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'Sora',sans-serif;font-size:2.6rem;font-weight:700;color:var(--cyan);line-height:1;margin-bottom:0.3rem;display:block}
+.stat-label{font-size:0.82rem;color:rgba(255,255,255,0.55);line-height:1.4}
+.stat-accent{width:28px;height:3px;border-radius:2px;margin:0.7rem auto 0}
+
+/* SECCIÓN GENÉRICA */
+.section-header{text-align:center;margin-bottom:3.5rem}
+.section-tag{display:inline-block;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:0.8rem;padding:4px 14px;background:rgba(0,196,204,0.1);border-radius:50px;border:1px solid rgba(0,196,204,0.25)}
+.section-title{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:700;color:var(--dark);line-height:1.2;margin-bottom:0.8rem}
+.section-sub{font-size:1rem;color:var(--muted);max-width:560px;margin:0 auto}
+
+/* EJES */
+#ejes{background:var(--light);padding:80px 5%}
+.ejes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;max-width:1200px;margin:0 auto}
+.eje-card{background:#fff;border-radius:var(--radius);padding:1.8rem 1.4rem;border:1px solid rgba(0,0,0,0.07);transition:transform .25s,box-shadow .25s;cursor:default}
+.eje-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.eje-dot{width:10px;height:10px;border-radius:50%;margin-bottom:1rem}
+.eje-card h4{font-size:0.95rem;font-weight:600;color:var(--dark);line-height:1.3}
+.eje-card p{font-size:0.82rem;color:var(--muted);margin-top:0.5rem;line-height:1.5}
+
+/* NOSOTROS */
+#nosotros{padding:100px 5%;background:#fff}
+.nosotros-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto}
+.nosotros-img{border-radius:20px;overflow:hidden;position:relative}
+.nosotros-img-badge{position:absolute;bottom:20px;right:20px;background:var(--dark);color:#fff;border-radius:14px;padding:16px 20px;text-align:center;border:1px solid rgba(0,196,204,0.3)}
+.nosotros-img-badge strong{font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:700;color:var(--cyan);display:block;line-height:1}
+.nosotros-img-badge span{font-size:0.72rem;color:rgba(255,255,255,0.6)}
+.nosotros-text .section-tag{display:inline-block;margin-bottom:1rem}
+.nosotros-text .section-title{text-align:left;margin-bottom:1.2rem}
+.nosotros-text p{color:var(--muted);margin-bottom:1rem;font-size:0.97rem}
+.nosotros-chips{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.8rem}
+.chip{font-size:0.78rem;font-weight:500;padding:6px 14px;border-radius:50px;border:1px solid;cursor:default}
+.chip-cyan{color:#008a90;background:rgba(0,196,204,0.08);border-color:rgba(0,196,204,0.3)}
+.chip-green{color:#3a7a1a;background:rgba(106,191,61,0.08);border-color:rgba(106,191,61,0.3)}
+.chip-mag{color:#a0106b;background:rgba(233,30,140,0.08);border-color:rgba(233,30,140,0.3)}
+
+/* EQUIPO / CARRUSEL */
+#equipo{background:var(--light);padding:100px 5%}
+.carousel-wrapper{max-width:1000px;margin:0 auto;position:relative}
+.carousel-viewport{overflow:hidden;border-radius:20px}
+.carousel-track{display:flex;transition:transform 0.45s cubic-bezier(.4,0,.2,1)}
+.team-card{min-width:100%;display:grid;grid-template-columns:280px 1fr;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.08)}
+.team-photo{position:relative;overflow:hidden}
+.team-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.team-photo-placeholder{width:100%;height:100%;min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-right:2px dashed rgba(0,196,204,0.3)}
+.team-photo-placeholder span{font-size:0.75rem;letter-spacing:0.05em}
+.team-photo-placeholder small{font-size:0.65rem;color:#a0c4c8}
+.team-info{padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:center;gap:0.7rem}
+.team-area-tag{display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 12px;border-radius:50px;border:1px solid;width:fit-content}
+.team-info h3{font-size:1.35rem;font-weight:700;color:var(--dark);margin-top:0.2rem}
+.team-role{font-size:0.85rem;color:var(--cyan);font-weight:500}
+.team-sep{width:36px;height:3px;border-radius:2px;background:var(--cyan);margin:0.3rem 0}
+.team-desc{font-size:0.9rem;color:var(--muted);line-height:1.7}
+.carousel-controls{display:flex;align-items:center;justify-content:center;gap:1.2rem;margin-top:2rem}
+.carousel-btn{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.12);background:#fff;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s,color .2s;box-shadow:0 2px 10px rgba(0,0,0,0.06)}
+.carousel-btn:hover{background:var(--cyan);border-color:var(--cyan);color:#fff}
+.carousel-dots{display:flex;gap:8px}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,0.15);cursor:pointer;border:none;transition:background .2s,transform .2s}
+.carousel-dot.active{background:var(--cyan);transform:scale(1.3)}
+
+/* MISIÓN & VISIÓN */
+#mision{background:#fff;padding:100px 5%}
+.mv-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:1200px;margin:3.5rem auto 0}
+.mv-card{border-radius:20px;padding:2.5rem;position:relative;overflow:hidden}
+.mv-card-mision{background:var(--dark);color:#fff}
+.mv-card-vision{background:var(--cyan);color:var(--dark)}
+.mv-card::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;opacity:0.1;bottom:-60px;right:-60px}
+.mv-card-mision::before{background:var(--cyan)}
+.mv-card-vision::before{background:var(--dark)}
+.mv-icon{font-size:2rem;margin-bottom:1.2rem}
+.mv-card h3{font-size:1.3rem;font-weight:700;margin-bottom:1rem}
+.mv-card-mision h3{color:var(--cyan)}
+.mv-card-vision h3{color:var(--dark)}
+.mv-card p{font-size:0.92rem;line-height:1.75;position:relative;z-index:1}
+.mv-card-mision p{color:rgba(255,255,255,0.75)}
+.mv-card-vision p{color:rgba(13,27,42,0.8)}
+
+/* CURSOS */
+#cursos{background:var(--light);padding:100px 5%}
+.areas-tabs{display:flex;gap:0.6rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+.area-tab{padding:10px 22px;border-radius:50px;font-size:0.85rem;font-weight:500;cursor:pointer;border:1.5px solid rgba(0,0,0,0.12);background:transparent;color:var(--muted);transition:all .2s;font-family:'DM Sans',sans-serif}
+.area-tab.active,.area-tab:hover{border-color:var(--cyan);color:var(--dark);background:rgba(0,196,204,0.08)}
+.area-tab.active{font-weight:600}
+.cursos-panels>div{display:none}
+.cursos-panels>div.active{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;max-width:1200px;margin:0 auto}
+.curso-card{background:#fff;border-radius:var(--radius);padding:1.6rem;border:1px solid rgba(0,0,0,0.07);transition:transform .2s,box-shadow .2s}
+.curso-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.curso-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.2rem}
+.curso-card h4{font-size:0.92rem;font-weight:600;color:var(--dark);margin-bottom:0.4rem}
+.curso-card p{font-size:0.8rem;color:var(--muted);line-height:1.5}
+
+/* CTA */
+#cta{background:linear-gradient(135deg,var(--dark) 0%,#0d2a40 100%);padding:100px 5%;text-align:center}
+#cta .section-tag{display:inline-block;margin-bottom:1.2rem}
+#cta h2{font-size:clamp(1.8rem,3.5vw,2.8rem);color:#fff;margin-bottom:1rem;max-width:600px;margin-left:auto;margin-right:auto}
+#cta p{color:rgba(255,255,255,0.6);margin-bottom:2.5rem;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{background:#080f19;padding:60px 5% 30px;border-top:1px solid rgba(255,255,255,0.06)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto 3rem}
+.footer-brand p{color:rgba(255,255,255,0.45);font-size:0.85rem;margin-top:1rem;max-width:280px;line-height:1.7}
+.footer-col h5{font-family:'Sora',sans-serif;font-size:0.82rem;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1rem}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:0.5rem}
+.footer-col ul li a{color:rgba(255,255,255,0.55);font-size:0.88rem;text-decoration:none;transition:color .2s}
+.footer-col ul li a:hover{color:var(--cyan)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.07);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto;flex-wrap:wrap;gap:0.5rem}
+.footer-bottom p{font-size:0.78rem;color:rgba(255,255,255,0.3)}
+.footer-logo-text{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:700;color:#fff}
+.footer-logo-text span{color:var(--cyan)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-grid,.nosotros-grid,.mv-grid{grid-template-columns:1fr;gap:3rem}
+  .hero-visual{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .stat-item:nth-child(2){border-right:none}
+  .team-card{grid-template-columns:1fr}
+  .team-photo-placeholder{min-height:220px;border-right:none;border-bottom:2px dashed rgba(0,196,204,0.3)}
+}
+@media(max-width:600px){
+  nav{padding:0 4%}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .footer-grid{grid-template-columns:1fr}
+  .stats-inner{grid-template-columns:1fr}
+  .stat-item{border-right:none;border-bottom:1px solid rgba(255,255,255,0.08)}
+  .stat-item:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><span>DEHUCAP</span></a>
+  <ul class="nav-links">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#mision">Misión y Visión</a></li>
+    <li><a href="#cursos">Cursos</a></li>
+    <li><a href="#cta">Contacto</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Solicitar información</a>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+  <div class="hero-grid">
+    <div class="hero-text">
+      <div class="hero-badge">OTEC Certificado · Chile</div>
+      <h1 class="hero-title">DEH<span>U</span>CAP</h1>
+      <p class="hero-subtitle">Soluciones formativas para personas y organizaciones que necesitan resultados reales</p>
+      <div class="hero-actions">
+        <a href="#cursos" class="btn-primary">Ver cursos</a>
+        <a href="#nosotros" class="btn-outline">Conoce más</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div style="position:relative">
+        <div class="hero-img-card">
+          <!-- ══ REEMPLAZAR: imagen principal hero ══
+               Tamaño recomendado: 800 × 520 px (JPG o WebP)
+               En Elementor: widget "Image", object-fit: cover, border-radius: 20px -->
+          <div class="img-placeholder" style="height:340px;background:rgba(255,255,255,0.04);border:2px dashed rgba(0,196,204,0.3);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(0,196,204,0.55)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span style="color:rgba(0,196,204,0.65);">IMAGEN PRINCIPAL HERO</span>
+            <small style="color:rgba(255,255,255,0.3);">Recomendado: 800 × 520 px</small>
+          </div>
+        </div>
+        <div class="hero-float-badge">
+          <div class="hero-float-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#0D1B2A" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="hero-float-text">
+            <p>Modalidad</p>
+            <strong>Presencial · Virtual</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num">+5.000</span>
+      <span class="stat-label">Estudiantes capacitados</span>
+      <div class="stat-accent" style="background:var(--cyan)"></div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">+15</span>
+      <span class="stat-label">Años de experiencia</span>
+      <div class="stat-accent" style="background:var(--magenta)"></div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Áreas de capacitación</span>
+      <div class="stat-accent" style="background:var(--green)"></div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">5</span>
+      <span class="stat-label">Ejes estratégicos</span>
+      <div class="stat-accent" style="background:var(--yellow)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- EJES -->
+<section id="ejes">
+  <div class="section-header">
+    <span class="section-tag">Nuestros ejes</span>
+    <h2 class="section-title">Pilares de nuestra propuesta formativa</h2>
+    <p class="section-sub">Cada eje orienta el diseño de nuestros programas hacia impactos concretos y medibles.</p>
+  </div>
+  <div class="ejes-grid">
+    <div class="eje-card"><div class="eje-dot" style="background:var(--cyan)"></div><h4>Certificación con valor real</h4><p>Programas con reconocimiento oficial que abren puertas en el mercado laboral.</p></div>
+    <div class="eje-card"><div class="eje-dot" style="background:var(--magenta)"></div><h4>Formación para la empleabilidad</h4><p>Contenidos alineados a las demandas reales del sector público y privado.</p></div>
+    <div class="eje-card"><div class="eje-dot" style="background:var(--green)"></div><h4>Competencias para crecer</h4><p>Habilidades técnicas y transversales que potencian el desarrollo profesional.</p></div>
+    <div class="eje-card"><div class="eje-dot" style="background:var(--yellow)"></div><h4>Liderazgo aplicado</h4><p>Herramientas prácticas para liderar equipos y gestionar entornos complejos.</p></div>
+    <div class="eje-card"><div class="eje-dot" style="background:var(--cyan)"></div><h4>Bienestar organizacional</h4><p>Programas que fortalecen el clima laboral, la salud y la motivación interna.</p></div>
+  </div>
+</section>
+
+<!-- NOSOTROS -->
+<section id="nosotros">
+  <div class="nosotros-grid">
+    <div class="nosotros-img">
+      <!-- ══ REEMPLAZAR: foto institucional (sala de clases, oficina, equipo…) ══
+           Tamaño recomendado: 700 × 500 px | En Elementor: widget "Image", border-radius 20px -->
+      <div class="img-placeholder" style="height:420px;border-radius:20px;background:#eef6f8;border:2px dashed rgba(0,196,204,0.35);">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="rgba(0,196,204,0.45)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span style="color:rgba(0,150,160,0.7);font-size:0.8rem;letter-spacing:0.05em;">FOTO INSTITUCIONAL</span>
+        <small style="color:#9bb8c0;">Recomendado: 700 × 500 px</small>
+      </div>
+      <div class="nosotros-img-badge">
+        <strong>2009</strong>
+        <span>Desde</span>
+      </div>
+    </div>
+    <div class="nosotros-text">
+      <span class="section-tag">Nosotros</span>
+      <h2 class="section-title">Una empresa al servicio del aprendizaje</h2>
+      <p>Somos una empresa orientada a crear, organizar y ejecutar programas de capacitación en modalidad presencial, virtual y complementaria, apoyando en todo momento el avance de competencias técnicas, superiores y transversales.</p>
+      <p>Contamos con un equipo de profesionales de diferentes disciplinas, con experiencia laboral en el sector público, trayectoria académica y formación de postgrado en áreas asociadas a su rol docente.</p>
+      <p>Capacitamos a personas del sector público y privado en todos aquellos ámbitos orientados al desarrollo personal y laboral, con asesoría y acompañamiento técnico en el diseño de cursos y talleres desde el año 2009.</p>
+      <div class="nosotros-chips">
+        <span class="chip chip-cyan">Salud Pública</span>
+        <span class="chip chip-green">Educación</span>
+        <span class="chip chip-mag">Municipios</span>
+        <span class="chip chip-cyan">Empleabilidad</span>
+        <span class="chip chip-green">Sector Público</span>
+        <span class="chip chip-mag">Sector Privado</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO — CARRUSEL -->
+<section id="equipo">
+  <div class="section-header">
+    <span class="section-tag">Quiénes somos</span>
+    <h2 class="section-title">Nuestro equipo profesional</h2>
+    <p class="section-sub">Especialistas de distintas disciplinas con experiencia en el sector público, formación de postgrado y vocación docente.</p>
+  </div>
+
+  <div class="carousel-wrapper">
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carouselTrack">
+
+        <!-- ── INTEGRANTE 1 ── -->
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- REEMPLAZAR: <img src="fotos/profesional-1.jpg" alt="Nombre Apellido"> — 400×400px cuadrada -->
+            <div class="team-photo-placeholder" style="background:linear-gradient(145deg,#e2f0f1,#cce6ea)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(0,196,204,0.45)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span style="color:#78adb3;">FOTO PROFESIONAL</span>
+              <small>400 × 400 px</small>
+            </div>
+          </div>
+          <div class="team-info">
+            <span class="team-area-tag" style="background:rgba(0,196,204,0.1);color:#007880;border-color:rgba(0,196,204,0.3);">Salud Pública</span>
+            <h3>Nombre Apellido</h3>
+            <p class="team-role">Psicóloga Clínica · Magíster en Salud Pública</p>
+            <div class="team-sep"></div>
+            <p class="team-desc">Especialista en humanización de la salud, gestión de servicios de salud pública y atención integral a poblaciones vulnerables. Más de 10 años de experiencia docente en el sector público y privado.</p>
+          </div>
+        </div>
+
+        <!-- ── INTEGRANTE 2 ── -->
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- REEMPLAZAR: <img src="fotos/profesional-2.jpg" alt="Nombre Apellido"> — 400×400px cuadrada -->
+            <div class="team-photo-placeholder" style="background:linear-gradient(145deg,#f5e8f2,#f0d0e8)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(233,30,140,0.4)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span style="color:#c060a0;">FOTO PROFESIONAL</span>
+              <small>400 × 400 px</small>
+            </div>
+          </div>
+          <div class="team-info">
+            <span class="team-area-tag" style="background:rgba(233,30,140,0.08);color:#a0106b;border-color:rgba(233,30,140,0.25);">Gestión Municipal</span>
+            <h3>Nombre Apellido</h3>
+            <p class="team-role">Asistente Social · Diplomada en RR.HH.</p>
+            <div class="team-sep" style="background:var(--magenta)"></div>
+            <p class="team-desc">Amplia trayectoria en gestión municipal y desarrollo organizacional. Docente en programas de empleabilidad y bienestar del funcionario público con enfoque en liderazgo participativo.</p>
+          </div>
+        </div>
+
+        <!-- ── INTEGRANTE 3 ── -->
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- REEMPLAZAR: <img src="fotos/profesional-3.jpg" alt="Nombre Apellido"> — 400×400px cuadrada -->
+            <div class="team-photo-placeholder" style="background:linear-gradient(145deg,#eaf5e4,#d4edcc)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(106,191,61,0.45)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span style="color:#5a9a2a;">FOTO PROFESIONAL</span>
+              <small>400 × 400 px</small>
+            </div>
+          </div>
+          <div class="team-info">
+            <span class="team-area-tag" style="background:rgba(106,191,61,0.1);color:#3a7a1a;border-color:rgba(106,191,61,0.3);">Educación</span>
+            <h3>Nombre Apellido</h3>
+            <p class="team-role">Educador/a · Magíster en Familia e Infancia</p>
+            <div class="team-sep" style="background:var(--green)"></div>
+            <p class="team-desc">Especialista en metodologías activas, educación socioemocional y diseño de programas formativos para el sector educativo y municipal. Experiencia en trabajo con niños, adolescentes y familias.</p>
+          </div>
+        </div>
+
+        <!-- ── INTEGRANTE 4 ── -->
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- REEMPLAZAR: <img src="fotos/profesional-4.jpg" alt="Nombre Apellido"> — 400×400px cuadrada -->
+            <div class="team-photo-placeholder" style="background:linear-gradient(145deg,#fdf5dc,#f8edbc)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(200,160,0,0.5)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span style="color:#9a7800;">FOTO PROFESIONAL</span>
+              <small>400 × 400 px</small>
+            </div>
+          </div>
+          <div class="team-info">
+            <span class="team-area-tag" style="background:rgba(245,196,0,0.12);color:#7a6000;border-color:rgba(245,196,0,0.4);">Empleabilidad</span>
+            <h3>Nombre Apellido</h3>
+            <p class="team-role">Psicólogo/a Organizacional · Coach Laboral</p>
+            <div class="team-sep" style="background:var(--yellow)"></div>
+            <p class="team-desc">Experto/a en competencias laborales, orientación vocacional e inserción al trabajo. Formación en liderazgo aplicado y desarrollo de equipos de alto rendimiento en contextos de cambio organizacional.</p>
+          </div>
+        </div>
+
+        <!-- ── INTEGRANTE 5 ── -->
+        <div class="team-card">
+          <div class="team-photo">
+            <!-- REEMPLAZAR: <img src="fotos/profesional-5.jpg" alt="Nombre Apellido"> — 400×400px cuadrada -->
+            <div class="team-photo-placeholder" style="background:linear-gradient(145deg,#e2f0f1,#cce6ea)">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(0,196,204,0.45)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span style="color:#78adb3;">FOTO PROFESIONAL</span>
+              <small>400 × 400 px</small>
+            </div>
+          </div>
+          <div class="team-info">
+            <span class="team-area-tag" style="background:rgba(0,196,204,0.1);color:#007880;border-color:rgba(0,196,204,0.3);">Salud Pública</span>
+            <h3>Nombre Apellido</h3>
+            <p class="team-role">Enfermero/a · Diplomado en Derechos Humanos</p>
+            <div class="team-sep"></div>
+            <p class="team-desc">Especialización en migraciones y salud, trata de personas y atención a víctimas. Experiencia en atención primaria y formación de equipos clínicos multidisciplinarios en el sector público de salud.</p>
+          </div>
+        </div>
+
+      </div><!-- /carousel-track -->
+    </div><!-- /carousel-viewport -->
+
+    <div class="carousel-controls">
+      <button class="carousel-btn" onclick="moveCarousel(-1)" aria-label="Anterior">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <button class="carousel-btn" onclick="moveCarousel(1)" aria-label="Siguiente">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- MISIÓN & VISIÓN -->
+<section id="mision">
+  <div class="section-header">
+    <span class="section-tag">Identidad</span>
+    <h2 class="section-title">Misión y Visión</h2>
+  </div>
+  <div class="mv-grid">
+    <div class="mv-card mv-card-mision">
+      <div class="mv-icon">🎯</div>
+      <h3>Nuestra Misión</h3>
+      <p>Crear, organizar y ejecutar programas de capacitación que apoyen el avance de competencias técnicas, superiores y transversales, trabajando para entregar confianza a nuestros clientes con respecto a las capacitaciones contratadas, proveyendo la infraestructura física y virtual óptima para la ejecución de los servicios, cumpliendo con los requisitos legales, reglamentarios y de nuestros clientes asociados al rubro.</p>
+    </div>
+    <div class="mv-card mv-card-vision">
+      <div class="mv-icon">🔭</div>
+      <h3>Nuestra Visión</h3>
+      <p>Ser un OTEC líder a nivel nacional en la contribución del desarrollo de personas que se desempeñan en las instituciones de salud o esperan ingresar a ellas, aportando conocimientos, tecnologías, prácticas y espacios de aprendizaje favorables para la mejora continua, con personal competente, profesional e innovador.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CURSOS -->
+<section id="cursos">
+  <div class="section-header">
+    <span class="section-tag">Oferta formativa</span>
+    <h2 class="section-title">Características de nuestros cursos</h2>
+    <p class="section-sub">Selecciona el área de tu interés para explorar las temáticas disponibles.</p>
+  </div>
+  <div class="areas-tabs">
+    <button class="area-tab active" onclick="showArea('salud',this)">Salud Pública</button>
+    <button class="area-tab" onclick="showArea('educacion',this)">Educación</button>
+    <button class="area-tab" onclick="showArea('municipios',this)">Municipios</button>
+    <button class="area-tab" onclick="showArea('empleabilidad',this)">Empleabilidad</button>
+  </div>
+  <div class="cursos-panels">
+    <div id="panel-salud" class="active">
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(0,196,204,0.12)">🏥</div><h4>Gestión y administración en salud</h4><p>Planificación sanitaria, modelos de atención y gestión de servicios de salud pública.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(0,196,204,0.12)">🧬</div><h4>Salud mental y bienestar</h4><p>Herramientas para abordar salud mental, prevención del burnout y humanización de la atención.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(0,196,204,0.12)">🤝</div><h4>Derechos humanos y salud</h4><p>Atención a población migrante, trata de personas, género y enfoque de derechos en salud.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(0,196,204,0.12)">📋</div><h4>Normativa y calidad sanitaria</h4><p>Procesos de acreditación, normativa vigente, seguridad del paciente y gestión de riesgos.</p></div>
+    </div>
+    <div id="panel-educacion">
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(106,191,61,0.12)">🎓</div><h4>Pedagogía y didáctica</h4><p>Metodologías activas, diseño curricular y estrategias de aprendizaje para docentes.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(106,191,61,0.12)">🌱</div><h4>Educación socioemocional</h4><p>Habilidades para la vida, convivencia escolar, resolución de conflictos y clima de aula.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(106,191,61,0.12)">💻</div><h4>Tecnologías en educación</h4><p>Plataformas de e-learning, recursos digitales y aula virtual para la enseñanza moderna.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(106,191,61,0.12)">🔬</div><h4>Educación en sexualidad</h4><p>Programa de actualización en sexualidad y afectividad para educadores y profesionales.</p></div>
+    </div>
+    <div id="panel-municipios">
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(233,30,140,0.12)">🏛️</div><h4>Gestión municipal</h4><p>Administración pública, planificación territorial, transparencia y probidad funcionaria.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(233,30,140,0.12)">📊</div><h4>Recursos humanos públicos</h4><p>Marco normativo laboral, bienestar del funcionario, clima organizacional y liderazgo.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(233,30,140,0.12)">🛡️</div><h4>Atención ciudadana</h4><p>Protocolo de atención, manejo de conflictos, comunicación efectiva con usuarios.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(233,30,140,0.12)">📝</div><h4>Elaboración de proyectos</h4><p>Formulación, postulación y gestión de proyectos para financiamiento público y FNDR.</p></div>
+    </div>
+    <div id="panel-empleabilidad">
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(245,196,0,0.15)">💼</div><h4>Habilidades laborales</h4><p>Trabajo en equipo, comunicación asertiva, manejo del tiempo y productividad personal.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(245,196,0,0.15)">🚀</div><h4>Inserción laboral</h4><p>CV efectivo, entrevistas de trabajo, marca personal y búsqueda activa de empleo.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(245,196,0,0.15)">🧠</div><h4>Competencias digitales</h4><p>Manejo de herramientas ofimáticas, redes sociales profesionales y cultura digital.</p></div>
+      <div class="curso-card"><div class="curso-icon" style="background:rgba(245,196,0,0.15)">🌟</div><h4>Emprendimiento</h4><p>Plan de negocios, marketing básico y herramientas financieras para nuevos emprendedores.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <span class="section-tag">¿Listo para comenzar?</span>
+  <h2>Diseñamos el programa formativo que tu organización necesita</h2>
+  <p>Contáctanos y un especialista te orientará sobre la mejor opción para tu equipo o institución.</p>
+  <div class="cta-actions">
+    <a href="mailto:contacto@dehucap.cl" class="btn-primary">Solicitar cotización</a>
+    <a href="tel:+56912345678" class="btn-outline" style="color:white;border-color:rgba(255,255,255,0.3)">Llamar ahora</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo-text">DEH<span>U</span>CAP</div>
+      <p>Organismo Técnico de Capacitación dedicado al desarrollo de competencias en salud pública, educación, gestión municipal y empleabilidad.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Navegación</h5>
+      <ul>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#equipo">Equipo</a></li>
+        <li><a href="#mision">Misión y Visión</a></li>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#cta">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Áreas</h5>
+      <ul>
+        <li><a href="#cursos">Salud Pública</a></li>
+        <li><a href="#cursos">Educación</a></li>
+        <li><a href="#cursos">Municipios</a></li>
+        <li><a href="#cursos">Empleabilidad</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Dehucap. Todos los derechos reservados.</p>
+    <p>Diseñado para WordPress · Elementor</p>
+  </div>
+</footer>
+
+<script>
+/* ── Tabs cursos ── */
+function showArea(area, btn) {
+  document.querySelectorAll('.area-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.cursos-panels > div').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + area).classList.add('active');
+}
+
+/* ── Carrusel ── */
+(function(){
+  const track = document.getElementById('carouselTrack');
+  const dotsEl = document.getElementById('carouselDots');
+  const cards = Array.from(track.querySelectorAll('.team-card'));
+  let current = 0, timer;
+
+  function buildDots(){
+    dotsEl.innerHTML = '';
+    cards.forEach((_,i)=>{
+      const b = document.createElement('button');
+      b.className = 'carousel-dot' + (i===0?' active':'');
+      b.setAttribute('aria-label','Ir a integrante '+(i+1));
+      b.addEventListener('click',()=>goTo(i));
+      dotsEl.appendChild(b);
+    });
+  }
+
+  function goTo(idx){
+    current = ((idx % cards.length) + cards.length) % cards.length;
+    track.style.transform = 'translateX(-'+(current*100)+'%)';
+    dotsEl.querySelectorAll('.carousel-dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+  }
+
+  window.moveCarousel = function(dir){ goTo(current+dir); };
+
+  function startAuto(){ timer = setInterval(()=>goTo(current+1), 6000); }
+  function stopAuto(){ clearInterval(timer); }
+
+  const wrap = document.querySelector('.carousel-wrapper');
+  wrap.addEventListener('mouseenter', stopAuto);
+  wrap.addEventListener('mouseleave', startAuto);
+
+  let tx = 0;
+  track.addEventListener('touchstart', e=>{ tx = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend', e=>{
+    const diff = tx - e.changedTouches[0].clientX;
+    if(Math.abs(diff) > 40) goTo(current + (diff>0?1:-1));
+  });
+
+  buildDots();
+  startAuto();
+})();
+</script>
+</body>
+</html>
